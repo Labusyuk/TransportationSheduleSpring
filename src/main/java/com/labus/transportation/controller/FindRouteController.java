@@ -38,8 +38,6 @@ public class FindRouteController {
             TransportDTO transportDTO = new TransportDTO();
             transportDTO.setName(transport.getName());
             transportDTO.setNameType(transport.getNameType());
-            transport.getStaying()
-               System.out.println(route.getStaying().getName());
         return "index";
     }
 }

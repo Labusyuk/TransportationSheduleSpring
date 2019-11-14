@@ -9,8 +9,5 @@ import java.util.List;
 
 @Repository
 public interface StayingRespository extends JpaRepository<Staying, Integer> {
-    @Query(value = "SELECT '*' FROM Staying GROUP BY name")
-    List<Staying> getDistinct();
-
-
+    List<Staying> findBy();
 }

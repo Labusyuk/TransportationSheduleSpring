@@ -10,7 +10,4 @@ import java.util.List;
 
 @Repository
 public interface RouteRespository extends JpaRepository<Route, Integer> {
-    public List<Route> getAllByDayEnumAndStaying(DayEnum dayEnum, Staying staying);
-
-    List<Route> findRoutesByStayingNameAndDayEnum(String staying_name, DayEnum dayEnum);
 }

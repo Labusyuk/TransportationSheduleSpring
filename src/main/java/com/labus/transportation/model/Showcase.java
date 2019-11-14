@@ -7,26 +7,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
-
-public class Route {
+public class Showcase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //generated DataBase auto_increment when insert value
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     private int id;
-    private int position;
+    private LocalTime localTime;
+    @Enumerated(EnumType.STRING)
+    private DayEnum dayEnum;
+    @Enumerated(EnumType.STRING)
+    private DirectionEnum directionEnum;
+    @Column(nullable = true)
+    private int timeAfterStart = 0;
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "staying_id")
-    private Staying staying;
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "transport_id")
-    private Transport transport;
-    @OneToMany(mappedBy = "route", cascade=CascadeType.ALL)
-    private List<Showcase> showcase;
-
-
+    @JoinColumn(name = "route_id")
+    private Route route;
 }

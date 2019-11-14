@@ -10,14 +10,11 @@ import java.util.List;
 
 @Service
 public class RouteService {
-    private final RouteRespository routeRespository;
     @Autowired
-    public RouteService(RouteRespository routeRespository) {
-        this.routeRespository = routeRespository;
-    }
+    private RouteRespository routeRespository;
 
-    public List<Route> getRoute(DayEnum dayEnum, String staying){
+   /* public List<Route> getRoute(DayEnum dayEnum, String staying){
         return routeRespository.findRoutesByStayingNameAndDayEnum(staying, dayEnum);
-    }
+    }*/
 
 }
