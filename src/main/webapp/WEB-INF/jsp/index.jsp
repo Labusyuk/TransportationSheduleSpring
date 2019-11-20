@@ -1,4 +1,3 @@
-<%@ page import="com.labus.showcase.entity.Ways" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
@@ -24,33 +23,33 @@
     <!-- Title -->
     <title>Gemicle - Vinnytsia Logistics</title>
 		
-	<link href="\views\assets\css\bootstrap.css" rel="stylesheet">
-	<link href="\views\assets\css\bootstrap-responsive.css" rel="stylesheet">
-    <link rel="stylesheet" href="\views\assets\fonts\fonts\font-awesome.min.css">
+	<link href="\assets\css\bootstrap.css" rel="stylesheet">
+	<link href="\assets\css\bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="\assets\fonts\fonts\font-awesome.min.css">
 
     <!-- Font Family -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
 
     <!-- Dashboard Css -->
-    <link href="@{/views/assets/css/dashboard.css}" rel="stylesheet">
+    <link href="\assets\css\dashboard.css" rel="stylesheet">
 
     <!-- c3.js Charts Plugin -->
-    <link href="@{/views/assets/css/dashboard.css}\views\assets\plugins\charts-c3\c3-chart.css" rel="stylesheet">
+    <link href="\assets\plugins\charts-c3\c3-chart.css" rel="stylesheet">
 
     <!-- select2 Plugin -->
-    <link href="\views\assets\plugins\select2\select2.min.css" rel="stylesheet">
+    <link href="\assets\plugins\select2\select2.min.css" rel="stylesheet">
 
     <!-- Time picker Plugin -->
-    <link href="\views\assets\plugins\time-picker\jquery.timepicker.css" rel="stylesheet">
+    <link href="\assets\plugins\time-picker\jquery.timepicker.css" rel="stylesheet">
 
     <!-- Date Picker Plugin -->
-    <link href="\views\assets\plugins\date-picker\spectrum.css" rel="stylesheet">
+    <link href="\assets\plugins\date-picker\spectrum.css" rel="stylesheet">
 
     <!-- Custom scroll bar css-->
-    <link href="\views\assets\plugins\scroll-bar\jquery.mCustomScrollbar.css" rel="stylesheet">
+    <link href="\assets\plugins\scroll-bar\jquery.mCustomScrollbar.css" rel="stylesheet">
 
     <!---Font icons-->
-    <link href="\views\assets\plugins\iconfonts\plugin.css" rel="stylesheet">
+    <link href="\assets\plugins\iconfonts\plugin.css" rel="stylesheet">
 
 </head>
 <body class="">
@@ -84,7 +83,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <form method="post" class="card">
+                        <form method="post" class="card" action="/find">
                             <div class="card-header">
                                 <h3 class="card-title">Побудова маршрута</h3>
                             </div>
@@ -145,10 +144,10 @@
 <td rowspan="3"><%=++i%></td>
     <c:forEach var="transport" items="${ways}">
         <c:if test="${ways.size()==1}">
-        <td colspan="6">${transport.getName()}<span class="label">${transport.getForward().getDuration()}мин</span></td>
+        <td colspan="6">${transport.getName()}<span class="label">${transport.getLastStaying().getTimeAfterStart()-transport.getFirstStaying().getTimeAfterStart()}мин</span></td>
         </c:if>
         <c:if test="${ways.size()==2}">
-            <td colspan="3">${transport.getName()}<span class="label">${transport.getForward().getDuration()}мин</span></td>
+            <td colspan="3">${transport.getName()}<span class="label">${transport.getLastStaying().getTimeAfterStart()-transport.getFirstStaying().getTimeAfterStart()}мин</span></td>
         </c:if>
     </c:forEach>
 <%--<td colspan="6">77 Автобус <span class="label">21мин</span></td>--%>
@@ -156,24 +155,24 @@
 <tr>
             <c:if test="${ways.size()==1}">
                 <c:forEach var="transport" items="${ways}">
-        <td colspan="3"><span class="label label-info">${transport.getForward().getStartTime()}</span> ${transport.getForward().getFirst().getName()}</td>
-        <td colspan="3">${transport.getForward().getLast().getName()}<span class="label label-info"> ${transport.getForward().getFinishTime()}</span></td>
+        <td colspan="3"><span class="label label-info">${transport.getStartLocalTime()}</span> ${transport.getFirstStaying()}</td>
+        <td colspan="3">${transport.getLastStaying()}<span class="label label-info"> ${transport.getFinishLocalTime()}</span></td>
                 </c:forEach>
             </c:if>
             <c:if test="${ways.size()>1}">
-                <td colspan="2"><span class="label label-info">${ways.get(0).getForward().getStartTime()} </span>${ways.get(0).getForward().getFirst().getName()}</td>
-                <td colspan="2"><span class="label label-info">${ways.get(0).getForward().getFinishTime()} </span>${ways.get(0).getForward().getLast().getName()} <span class="label label-info"> ${ways.get(1).getForward().getStartTime()}</span></td>
-                <td colspan="2">${ways.get(1).getForward().getLast().getName()}<span class="label label-info"> ${ways.get(1).getForward().getFinishTime()}</span></td>
+                <td colspan="2"><span class="label label-info">${ways.get(0).getStartLocalTime()} </span>${ways.get(0).getFirstStaying()}</td>
+                <td colspan="2"><span class="label label-info">${ways.get(0).getFinishLocalTime()} </span>${ways.get(0).getLastStaying()} <span class="label label-info"> ${ways.get(1).getStartLocalTime()}</span></td>
+                <td colspan="2">${ways.get(1).getLastStaying()}<span class="label label-info"> ${ways.get(1).getFinishLocalTime()}</span></td>
             </c:if>
 
 </tr>
 <tr class="warning">
 <td colspan="6">
     <c:if test="${ways.size()>1}">
-        ${ways.get(0).getForward().getDuration()+ways.get(1).getForward().getDuration()}
+        ${ways.get(0).getLastStaying().getTimeAfterStart()-ways.get(0).getFirstStaying().getTimeAfterStart()+ways.get(1).getLastStaying().getTimeAfterStart()-ways.get(1).getFirstStaying().getTimeAfterStart()}
     </c:if>
     <c:if test="${ways.size()==1}">
-        ${ways.get(0).getForward().getDuration()}
+        ${ways.get(0).getLastStaying().getTimeAfterStart()-ways.get(0).getFirstStaying().getTimeAfterStart()}
     </c:if>
     мин</td>
 </tr>
@@ -183,8 +182,8 @@
 </table>
 <%--<c:forEach var="ways" items="${waysList}">
     <c:forEach var="transport" items="${ways}">
-        ${transport.getForward().getFirst().getName()}
-        ${transport.getForward().getLast().getName()}
+        ${transport.getFirstStaying()}
+        ${transport.getLastStaying()}
     </c:forEach>
 </c:forEach>--%>
 						   <div class="row-fluid">
@@ -217,33 +216,33 @@
 <!-- Back to top -->
 <!-- <a href="#top" id="back-to-top" style="display: inline;"><i class="fa fa-angle-up"></i></a> -->
 <!-- Dashboard Css -->
-<script src="\views\assets\js\vendors\jquery-3.2.1.min.js"></script>
-<script src="\views\assets\js\vendors\bootstrap.bundle.min.js"></script>
-<script src="\views\assets\js\vendors\jquery.sparkline.min.js"></script>
-<script src="\views\assets\js\vendors\selectize.min.js"></script>
-<script src="\views\assets\js\vendors\jquery.tablesorter.min.js"></script>
-<script src="\views\assets\js\vendors\circle-progress.min.js"></script>
-<script src="\views\assets\plugins\rating\jquery.rating-stars.js"></script>
+<script src="\assets\js\vendors\jquery-3.2.1.min.js"></script>
+<script src="\assets\js\vendors\bootstrap.bundle.min.js"></script>
+<script src="\assets\js\vendors\jquery.sparkline.min.js"></script>
+<script src="\assets\js\vendors\selectize.min.js"></script>
+<script src="\assets\js\vendors\jquery.tablesorter.min.js"></script>
+<script src="\assets\js\vendors\circle-progress.min.js"></script>
+<script src="\assets\plugins\rating\jquery.rating-stars.js"></script>
 <!--Select2 js -->
-<script src="\views\assets\plugins\select2\select2.full.min.js"></script>
+<script src="\assets\plugins\select2\select2.full.min.js"></script>
 
 <!-- Timepicker js -->
-<script src="\views\assets\plugins\time-picker\jquery.timepicker.js"></script>
-<script src="\views\assets\plugins\time-picker\toggles.min.js"></script>
+<script src="\assets\plugins\time-picker\jquery.timepicker.js"></script>
+<script src="\assets\plugins\time-picker\toggles.min.js"></script>
 
 <!-- Datepicker js -->
-<script src="\views\assets\plugins\date-picker\spectrum.js"></script>
-<script src="\views\assets\plugins\date-picker\jquery-ui.js"></script>
-<script src="\views\assets\plugins\input-mask\jquery.maskedinput.js"></script>
+<script src="\assets\plugins\date-picker\spectrum.js"></script>
+<script src="\assets\plugins\date-picker\jquery-ui.js"></script>
+<script src="\assets\plugins\input-mask\jquery.maskedinput.js"></script>
 
 <!-- Inline js -->
-<script src="\views\assets\js\select2.js"></script>
+<script src="\assets\js\select2.js"></script>
 
 <!-- Custom scroll bar Js-->
-<script src="\views\assets\plugins\scroll-bar\jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="\assets\plugins\scroll-bar\jquery.mCustomScrollbar.concat.min.js"></script>
 
 <!-- Custom Js-->
-<script src="\views\assets\js\custom.js"></script>
+<script src="\assets\js\custom.js"></script>
 
 </body>
 </html>

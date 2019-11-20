@@ -54,10 +54,9 @@ public class DataUpdateController {
         }
     }
 
-    private Showcase createShowcase(DayEnum working, DirectionEnum forward, Route route, TimeOfDay timeOfDay, int timeAfterStart) {
+    private Showcase createShowcase(DayEnum working,Route route, TimeOfDay timeOfDay, int timeAfterStart) {
         Showcase showcase = new Showcase();
         showcase.setDayEnum(working);
-        showcase.setDirectionEnum(forward);
         showcase.setRoute(route);
         LocalTime localTime = LocalTime.of(timeOfDay.getHour(),timeOfDay.getMinute(),timeOfDay.getSecond());
         showcase.setLocalTime(localTime);
@@ -70,13 +69,14 @@ public class DataUpdateController {
         route.setStaying(newStaying);
         route.setTransport(newTransport);
         route.setPosition(i);
+        route.setDirectionEnum(directionEnum);
         List<Showcase> showcases = new ArrayList<>();
         for(TimeOfDay timeOfDay: staying.getShowCaseWorkingDays()){
-            Showcase showcase = createShowcase(DayEnum.WORKING,directionEnum, route, timeOfDay,staying.getTimeAfterStart());
+            Showcase showcase = createShowcase(DayEnum.WORKING,route, timeOfDay,staying.getTimeAfterStart());
             showcases.add(showcase);
         }
         for(TimeOfDay timeOfDay: staying.getShowCaseWeekend()){
-            Showcase showcase = createShowcase(DayEnum.WEEKEND,directionEnum, route, timeOfDay,staying.getTimeAfterStart());
+            Showcase showcase = createShowcase(DayEnum.WEEKEND, route, timeOfDay,staying.getTimeAfterStart());
             showcases.add(showcase);
         }
         route.setShowcase(showcases);

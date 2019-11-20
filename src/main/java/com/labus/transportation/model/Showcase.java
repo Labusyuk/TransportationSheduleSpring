@@ -19,8 +19,6 @@ public class Showcase {
     private LocalTime localTime;
     @Enumerated(EnumType.STRING)
     private DayEnum dayEnum;
-    @Enumerated(EnumType.STRING)
-    private DirectionEnum directionEnum;
     @Column(nullable = true)
     private int timeAfterStart = 0;
     @ManyToOne(cascade=CascadeType.ALL)

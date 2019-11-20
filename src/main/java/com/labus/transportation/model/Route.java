@@ -18,6 +18,8 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //generated DataBase auto_increment when insert value
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     private int id;
+    @Enumerated(EnumType.STRING)
+    private DirectionEnum directionEnum;
     private int position;
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "staying_id")
@@ -27,6 +29,4 @@ public class Route {
     private Transport transport;
     @OneToMany(mappedBy = "route", cascade=CascadeType.ALL)
     private List<Showcase> showcase;
-
-
 }
