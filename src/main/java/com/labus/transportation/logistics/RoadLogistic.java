@@ -42,7 +42,7 @@ public class RoadLogistic implements Logistic {
                     for (TransportDTO transportB : transportsB) {
                         LinkedList<StayingDTO> jointRoute;
                         //У каждого транспорта по 2 маршрута.
-                           for(int i=0;i<minCount;i++){
+                           for(int i=0;i<minCount && ways.size()!=0;i++){
                                if (ways.get(i).contains(transportA))
                                    continue label1;
                                if(ways.get(i).contains(transportB))
