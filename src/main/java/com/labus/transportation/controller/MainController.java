@@ -21,7 +21,9 @@ import java.util.*;
 
 
 @Controller
-public class MainController {
+public class
+
+MainController {
     @Autowired
     private StayingService stayingService;
     private final Logger log = LoggerFactory.getLogger(MainController.class);
