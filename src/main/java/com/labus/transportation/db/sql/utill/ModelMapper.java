@@ -1,12 +1,12 @@
-package com.labus.transportation.utill;
+package com.labus.transportation.db.sql.utill;
 
 import com.labus.transportation.dto.StayingDTO;
 import com.labus.transportation.dto.TransportDTO;
-import com.labus.transportation.model.Route;
-import com.labus.transportation.model.Showcase;
-import com.labus.transportation.model.Transport;
-import com.labus.transportation.model.enums.DayEnum;
-import com.labus.transportation.model.enums.DirectionEnum;
+import com.labus.transportation.db.sql.model.Route;
+import com.labus.transportation.db.sql.model.Showcase;
+import com.labus.transportation.db.sql.model.Transport;
+import com.labus.transportation.db.sql.model.enums.DayEnum;
+import com.labus.transportation.db.sql.model.enums.DirectionEnum;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

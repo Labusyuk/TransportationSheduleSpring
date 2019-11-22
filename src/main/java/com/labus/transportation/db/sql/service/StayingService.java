@@ -1,7 +1,7 @@
-package com.labus.transportation.service;
+package com.labus.transportation.db.sql.service;
 
-import com.labus.transportation.model.Staying;
-import com.labus.transportation.repositories.StayingRespository;
+import com.labus.transportation.db.sql.model.Staying;
+import com.labus.transportation.db.sql.repositories.StayingRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

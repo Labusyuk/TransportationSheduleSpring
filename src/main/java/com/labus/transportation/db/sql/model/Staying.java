@@ -1,10 +1,9 @@
-package com.labus.transportation.model;
+package com.labus.transportation.db.sql.model;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

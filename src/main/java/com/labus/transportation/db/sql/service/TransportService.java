@@ -1,9 +1,7 @@
-package com.labus.transportation.service;
+package com.labus.transportation.db.sql.service;
 
-import com.labus.transportation.dto.TransportDTO;
-import com.labus.transportation.model.Route;
-import com.labus.transportation.model.Transport;
-import com.labus.transportation.repositories.TransportRespository;
+import com.labus.transportation.db.sql.model.Transport;
+import com.labus.transportation.db.sql.repositories.TransportRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

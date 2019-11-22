@@ -1,7 +1,7 @@
 package com.labus.transportation.controller;
 
-import com.labus.transportation.model.Staying;
-import com.labus.transportation.service.StayingService;
+import com.labus.transportation.db.sql.model.Staying;
+import com.labus.transportation.db.sql.service.StayingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,7 @@ public class MainController {
         List<Staying> stayingList =  stayingService.getAll();
         stayingList.sort(Comparator.comparing(Staying::getName));
         model.put("stayings",stayingList );
+
         return "index";
     }
 }

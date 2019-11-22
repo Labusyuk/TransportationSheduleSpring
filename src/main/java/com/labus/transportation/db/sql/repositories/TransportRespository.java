@@ -1,6 +1,6 @@
-package com.labus.transportation.repositories;
+package com.labus.transportation.db.sql.repositories;
 
-import com.labus.transportation.model.Transport;
+import com.labus.transportation.db.sql.model.Transport;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

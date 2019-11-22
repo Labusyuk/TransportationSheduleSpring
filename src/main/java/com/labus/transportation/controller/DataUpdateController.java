@@ -1,14 +1,14 @@
 package com.labus.transportation.controller;
 
-import com.labus.transportation.model.Route;
-import com.labus.transportation.model.Showcase;
-import com.labus.transportation.model.Staying;
-import com.labus.transportation.model.Transport;
-import com.labus.transportation.model.enums.DayEnum;
-import com.labus.transportation.model.enums.DirectionEnum;
+import com.labus.transportation.db.sql.model.Route;
+import com.labus.transportation.db.sql.model.Showcase;
+import com.labus.transportation.db.sql.model.Staying;
+import com.labus.transportation.db.sql.model.Transport;
+import com.labus.transportation.db.sql.model.enums.DayEnum;
+import com.labus.transportation.db.sql.model.enums.DirectionEnum;
 import com.labus.transportation.parser.TransportPool;
 import com.labus.transportation.parser.entity.TimeOfDay;
-import com.labus.transportation.service.TransportService;
+import com.labus.transportation.db.sql.service.TransportService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

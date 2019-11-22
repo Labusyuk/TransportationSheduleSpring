@@ -1,7 +1,6 @@
-package com.labus.transportation.model;
+package com.labus.transportation.db.sql.model;
 
-import com.labus.transportation.model.enums.DayEnum;
-import com.labus.transportation.model.enums.DirectionEnum;
+import com.labus.transportation.db.sql.model.enums.DayEnum;
 import lombok.Getter;
 import lombok.Setter;
 

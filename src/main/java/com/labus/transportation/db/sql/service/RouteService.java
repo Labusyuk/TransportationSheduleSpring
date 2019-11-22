@@ -1,12 +1,8 @@
-package com.labus.transportation.service;
+package com.labus.transportation.db.sql.service;
 
-import com.labus.transportation.model.Route;
-import com.labus.transportation.model.enums.DayEnum;
-import com.labus.transportation.repositories.RouteRespository;
+import com.labus.transportation.db.sql.repositories.RouteRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RouteService {

@@ -1,8 +1,7 @@
-package com.labus.transportation.repositories;
+package com.labus.transportation.db.sql.repositories;
 
-import com.labus.transportation.model.Staying;
+import com.labus.transportation.db.sql.model.Staying;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

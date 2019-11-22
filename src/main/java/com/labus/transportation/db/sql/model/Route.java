@@ -1,12 +1,10 @@
-package com.labus.transportation.model;
+package com.labus.transportation.db.sql.model;
 
-import com.labus.transportation.model.enums.DayEnum;
-import com.labus.transportation.model.enums.DirectionEnum;
+import com.labus.transportation.db.sql.model.enums.DirectionEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 import java.util.List;
 
 @Getter
