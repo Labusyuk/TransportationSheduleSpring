@@ -1,6 +1,7 @@
 package com.labus.transportation.parser.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Staying implements Serializable {
     private String name;
@@ -36,6 +37,11 @@ public class Staying implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return ((Staying)obj).getName().equals(name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     public Showcase getShowCaseWorkingDays() {

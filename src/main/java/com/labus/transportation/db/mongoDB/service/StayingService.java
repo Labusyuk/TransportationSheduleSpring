@@ -12,11 +12,14 @@ public class StayingService {
     public Staying save(Staying stock) {
         return stayingRespository.save(stock);
     }
+    public List<Staying> saveAll (List<Staying> stayings){
+        return stayingRespository.saveAll(stayings);
+    }
 
-    public List<Staying> getStaying(){
+    public List<Staying> getAllStaying(){
         return stayingRespository.findAll();
     }
-    public List<Staying> getDistinctStaying(){
+    public List<Staying> getAllDistinctStaying(){
         return stayingRespository.findDistinctByName();
     }
 }

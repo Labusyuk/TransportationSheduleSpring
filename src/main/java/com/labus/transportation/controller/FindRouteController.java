@@ -1,12 +1,12 @@
 package com.labus.transportation.controller;
 
+import com.labus.transportation.db.mongoDB.model.Staying;
+import com.labus.transportation.db.mongoDB.service.StayingService;
+import com.labus.transportation.db.mongoDB.service.TransportService;
+import com.labus.transportation.db.mongoDB.utill.ModelMapper;
 import com.labus.transportation.dto.StayingDTO;
 import com.labus.transportation.dto.TransportDTO;
 import com.labus.transportation.logistics.RoadLogistic;
-import com.labus.transportation.db.sql.model.Staying;
-import com.labus.transportation.db.sql.service.StayingService;
-import com.labus.transportation.db.sql.service.TransportService;
-import com.labus.transportation.db.sql.utill.ModelMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class FindRouteController {
         request.getSession().setAttribute("secondStaying", secondStaying);
         model.put("staying1",firstStaying );
         model.put("staying2",secondStaying );
-        List<Staying> stayingList =  stayingService.getAll();
+        List<Staying> stayingList =  stayingService.getAllDistinctStaying();
         stayingList.sort(Comparator.comparing(Staying::getName));
         model.put("stayings",stayingList );
     System.out.printf("--------find---------");
