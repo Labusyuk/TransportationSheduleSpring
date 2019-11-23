@@ -1,11 +1,10 @@
-package com.labus.transportation.db.mongoDB.utill;
+package com.labus.transportation.utill;
 
-import com.labus.transportation.db.mongoDB.model.Transport;
+import com.labus.transportation.model.Transport;
 import com.labus.transportation.dto.StayingDTO;
 import com.labus.transportation.dto.TransportDTO;
 import com.labus.transportation.parser.entity.Showcase;
 import com.labus.transportation.parser.entity.Staying;
-import com.labus.transportation.parser.entity.TimeOfDay;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
