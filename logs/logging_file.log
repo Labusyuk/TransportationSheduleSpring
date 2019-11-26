@@ -1,0 +1,12 @@
+2019-11-26 15:28:56 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:33:24 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:33:29 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:41:04 INFO  TestController:19 - test info log4j message
+2019-11-26 15:41:04 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:41:10 INFO  TestController:19 - test info log4j message
+2019-11-26 15:41:10 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:42:27 INFO  TestController:19 - test info log4j message
+2019-11-26 15:42:27 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:44:27 INFO  TestController:19 - test info log4j message
+2019-11-26 15:44:27 WARN  TestController:21 - test warn log4j message
+2019-11-26 15:44:27 FATAL TestController:22 - fatal crash test message
