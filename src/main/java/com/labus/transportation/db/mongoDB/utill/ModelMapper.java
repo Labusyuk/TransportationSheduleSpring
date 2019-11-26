@@ -1,4 +1,4 @@
-package com.labus.transportation.utill;
+package com.labus.transportation.db.mongoDB.utill;
 
 import com.labus.transportation.model.Transport;
 import com.labus.transportation.dto.StayingDTO;
@@ -30,7 +30,7 @@ public class ModelMapper {
     public static List<StayingDTO> convertListStayingToStayingDTO(List<Staying> stayingList) {
         List<StayingDTO> stayingDTOList = new ArrayList<>();
         for(int i=0;i<stayingList.size();i++){
-            Staying staying = stayingList.get(0);
+            Staying staying = stayingList.get(i);
             StayingDTO newStaying = new StayingDTO();
             newStaying.setName(staying.getName());
             newStaying.setPosition(i);

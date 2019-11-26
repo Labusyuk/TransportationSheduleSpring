@@ -1,7 +1,7 @@
-package com.labus.transportation.service;
+package com.labus.transportation.db.mongoDB.service;
 
 import com.labus.transportation.model.Transport;
-import com.labus.transportation.repositories.TransportRespository;
+import com.labus.transportation.db.mongoDB.repositories.TransportRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

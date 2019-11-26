@@ -3,9 +3,7 @@ package com.labus.transportation.controller;
 import com.labus.transportation.db.mongoDB.service.StayingService;
 import com.labus.transportation.db.mongoDB.service.TransportService;
 import com.labus.transportation.parser.TransportPool;
-import com.labus.transportation.parser.entity.Route;
 import com.labus.transportation.parser.entity.Staying;
-import com.labus.transportation.parser.entity.TimeOfDay;
 import com.labus.transportation.parser.entity.Transport;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,19 +29,22 @@ public class DataUpdateController {
         try {
             List<Transport> transportList = TransportPool.getInstance().getTransport();
             Set<Staying> stayingSet = new HashSet<>();
+            int i=0;
             for (Transport transport : transportList) {
-                com.labus.transportation.db.mongoDB.model.Transport newTransport = new com.labus.transportation.db.mongoDB.model.Transport();
+                com.labus.transportation.model.Transport newTransport = new com.labus.transportation.model.Transport();
+                newTransport.setId(i++);
                 newTransport.setName(transport.getName());
                 newTransport.setNameRoute(transport.getNameRoute());
                 newTransport.setNameType(transport.getNameType());
                 newTransport.setBackward(transport.getBackward());
                 newTransport.setForward(transport.getForward());
                 stayingSet.addAll(transport.getForward());
+                stayingSet.addAll(transport.getBackward());
                 transportService.save(newTransport);
             }
-            List<com.labus.transportation.db.mongoDB.model.Staying> stayingList = new ArrayList();
+            List<com.labus.transportation.model.Staying> stayingList = new ArrayList();
             stayingList.addAll(stayingSet.stream().map(staying -> {
-                com.labus.transportation.db.mongoDB.model.Staying newStaying = new com.labus.transportation.db.mongoDB.model.Staying();
+                com.labus.transportation.model.Staying newStaying = new com.labus.transportation.model.Staying();
                 newStaying.setName(staying.getName());
                 return newStaying;
             }).collect(Collectors.toList()));

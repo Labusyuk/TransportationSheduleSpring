@@ -1,6 +1,6 @@
 package com.labus.transportation.controller;
 
-import com.labus.transportation.db.mongoDB.model.Staying;
+import com.labus.transportation.model.Staying;
 import com.labus.transportation.db.mongoDB.service.StayingService;
 import com.labus.transportation.db.mongoDB.service.TransportService;
 import com.labus.transportation.db.mongoDB.utill.ModelMapper;
@@ -28,12 +28,13 @@ public class FindRouteController {
         request.getSession().setAttribute("secondStaying", secondStaying);
         model.put("staying1",firstStaying );
         model.put("staying2",secondStaying );
-        List<Staying> stayingList =  stayingService.getAllDistinctStaying();
+        List<Staying> stayingList =  stayingService.getAllStaying();
         stayingList.sort(Comparator.comparing(Staying::getName));
         model.put("stayings",stayingList );
     System.out.printf("--------find---------");
 
     List<TransportDTO> transports = ModelMapper.convertListTransportToDTO(transportService.getTransports());
+    System.out.println(transports.size());
         if(!useTime.equals("false") && !time.isEmpty()){
             LocalTime localTime = ModelMapper.convertStringToLocalTime(time);
             boolean workingDayBool = false;

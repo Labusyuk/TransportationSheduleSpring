@@ -1,6 +1,6 @@
 package com.labus.transportation.db.mongoDB.repositories;
 
-import com.labus.transportation.db.mongoDB.model.Staying;
+import com.labus.transportation.model.Staying;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

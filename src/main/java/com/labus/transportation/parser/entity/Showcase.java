@@ -1,9 +1,10 @@
 package com.labus.transportation.parser.entity;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Showcase extends LinkedList<TimeOfDay> {
+public class Showcase extends LinkedList<TimeOfDay> implements Serializable {
     public Showcase() {
     }
     public TimeOfDay getAfter(TimeOfDay timeOfDay){

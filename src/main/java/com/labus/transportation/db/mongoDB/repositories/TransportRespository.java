@@ -1,4 +1,4 @@
-package com.labus.transportation.repositories;
+package com.labus.transportation.db.mongoDB.repositories;
 
 import com.labus.transportation.model.Transport;
 import org.springframework.data.mongodb.repository.MongoRepository;

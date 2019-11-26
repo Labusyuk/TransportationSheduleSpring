@@ -1,9 +1,16 @@
 package com.labus.transportation.parser.entity;
+
+import java.io.Serializable;
+
 ///Существуют готовые классы времени. Но мне нужно лишь времья в интервале 24 часов.
-public class TimeOfDay {
+public class TimeOfDay implements Serializable {
     private int hour = 0;
     private int minute = 0;
     private int second = 0;
+
+    public TimeOfDay() {
+
+    }
 
     public TimeOfDay(String hour, String minute, String second) {
         setValue( hour,  minute,  second);

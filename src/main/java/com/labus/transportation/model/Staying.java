@@ -1,12 +1,10 @@
-package com.labus.transportation.db.mongoDB.model;
+package com.labus.transportation.model;
 
-import com.labus.transportation.parser.entity.Showcase;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Id;
-import java.io.Serializable;
 
 @Data
 @Document

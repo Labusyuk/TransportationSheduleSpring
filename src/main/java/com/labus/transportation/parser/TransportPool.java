@@ -38,7 +38,6 @@ public class TransportPool {
         if(new Date().getTime()-dateCreatedTransports.getTime()>actualIntervalTime) {
             transportsList.clear();
             transportsList = new ParseTransport().getTransports();
-            System.out.println("two");
             dateCreatedTransports = new Date();
         }
         return transportsList;
