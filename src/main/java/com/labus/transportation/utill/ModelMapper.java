@@ -1,4 +1,4 @@
-package com.labus.transportation.db.mongoDB.utill;
+package com.labus.transportation.utill;
 
 import com.labus.transportation.model.Transport;
 import com.labus.transportation.dto.StayingDTO;

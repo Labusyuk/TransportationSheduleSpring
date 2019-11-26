@@ -1,7 +1,7 @@
 package com.labus.transportation.controller;
 
-import com.labus.transportation.db.mongoDB.service.StayingService;
-import com.labus.transportation.db.mongoDB.service.TransportService;
+import com.labus.transportation.service.StayingService;
+import com.labus.transportation.service.TransportService;
 import com.labus.transportation.model.Staying;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

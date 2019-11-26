@@ -1,9 +1,9 @@
 package com.labus.transportation.controller;
 
 import com.labus.transportation.model.Staying;
-import com.labus.transportation.db.mongoDB.service.StayingService;
-import com.labus.transportation.db.mongoDB.service.TransportService;
-import com.labus.transportation.db.mongoDB.utill.ModelMapper;
+import com.labus.transportation.service.StayingService;
+import com.labus.transportation.service.TransportService;
+import com.labus.transportation.utill.ModelMapper;
 import com.labus.transportation.dto.StayingDTO;
 import com.labus.transportation.dto.TransportDTO;
 import com.labus.transportation.logistics.RoadLogistic;
