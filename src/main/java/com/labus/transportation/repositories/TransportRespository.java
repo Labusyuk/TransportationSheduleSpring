@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TransportRespository extends JpaRepository<Transport, Integer> {
     List<Transport> findAll();
+    List<Transport> findByNameType(String nameType);
 }

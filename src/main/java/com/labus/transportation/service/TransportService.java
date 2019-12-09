@@ -23,4 +23,8 @@ public class TransportService {
         return transportRespository.findAll();
     }
 
+    public Integer getTransportCount(String nameType){
+        return transportRespository.findByNameType(nameType).size();
+    }
+
 }
