@@ -2,6 +2,7 @@ package com.labus.transportation.controller;
 
 import com.labus.transportation.service.TransportService;
 import com.labus.transportation.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 @Controller
 public class InfoController {
+    Logger log = Logger.getLogger(InfoController.class);
     @Autowired
     TransportService transportService;
     @Autowired

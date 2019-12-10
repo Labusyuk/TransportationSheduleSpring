@@ -1,24 +1,21 @@
 package com.labus.transportation.controller;
 
-import com.labus.transportation.hash.Hash;
-import com.labus.transportation.hash.SHA256Hash;
 import com.labus.transportation.model.User;
 import com.labus.transportation.model.enums.RoleEnum;
 import com.labus.transportation.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 
 @Controller
 public class AuthController {
+    Logger log = Logger.getLogger(AuthController.class);
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired

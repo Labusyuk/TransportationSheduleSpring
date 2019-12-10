@@ -1,7 +1,13 @@
 package com.labus.transportation.config;
 
+import com.labus.transportation.controller.TestController;
+import com.labus.transportation.repositories.UserRepository;
 import com.labus.transportation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,11 +17,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.apache.log4j.Logger;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.ui.Model;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,12 +37,19 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
+@EnableOAuth2Client
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    Logger log = Logger.getLogger(WebSecurityConfig.class);
     @Autowired
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Qualifier("oauth2ClientContext")
+    @Autowired
+    private OAuth2ClientContext oAuth2ClientContext;
+    @Autowired
+    private UserRepository userRepository;
     private Model model;
 
     private AuthenticationSuccessHandler authenticationSuccessHandler = new AuthenticationSuccessHandler() {
@@ -45,11 +66,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests().antMatchers("/","/find/**").access("hasAnyAuthority('USER')");
         http.authorizeRequests().antMatchers("/info").access("hasAnyAuthority('USER')");
         http
                 .authorizeRequests()
-                .antMatchers("/assets/**", "/registration", "/login", "/test", "/login?error").permitAll()
+                .antMatchers("/**","/assets/**", "/registration", "/login**", "/test", "/login?error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
@@ -80,4 +102,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return passwordEncoder;
     }
 
+    @Bean
+    public FilterRegistrationBean oAuth2ClientFilterRegistration(OAuth2ClientContextFilter oAuth2ClientContextFilter)
+    {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(oAuth2ClientContextFilter);
+        registration.setOrder(-100);
+        return registration;
+    }
+
+    private Filter ssoFilter()
+    {
+        OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
+        OAuth2RestTemplate googleTemplate = new OAuth2RestTemplate(google(), oAuth2ClientContext);
+        googleFilter.setRestTemplate(googleTemplate);
+        CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(googleResource().getUserInfoUri(), google().getClientId());
+        tokenServices.setRestTemplate(googleTemplate);
+        googleFilter.setTokenServices(tokenServices);
+        tokenServices.setUserRepository(userRepository);
+        tokenServices.setPasswordEncoder(passwordEncoder);
+        return googleFilter;
+    }
+
+    @Bean
+    @ConfigurationProperties("google.client")
+    public AuthorizationCodeResourceDetails google()
+    {
+        return new AuthorizationCodeResourceDetails();
+    }
+
+    @Bean
+    @ConfigurationProperties("google.resource")
+    public ResourceServerProperties googleResource()
+    {
+        return new ResourceServerProperties();
+    }
 }

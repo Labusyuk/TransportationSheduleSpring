@@ -47,6 +47,7 @@
                     </label><a class="form-recovery" href="#">Forgot Password?</a>
                 </div>
                 <div style="text-align: center;"><b style="color: rgb(95, 11, 11);">${userNotExist}</b></div>
+                <div style="text-align: center;"><b style="color: rgb(0,7,95);"><a href="/login/google">Sign in with your google account</a></b></div>
                 <div class="form-group">
                     <button type="submit">Log In</button>
                 </div>

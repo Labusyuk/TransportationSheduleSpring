@@ -11,6 +11,7 @@ import com.labus.transportation.service.StayingService;
 import com.labus.transportation.service.TransportService;
 import com.labus.transportation.utill.ModelMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.*;
 @Controller
 
 public class FindRouteController {
+    Logger log = Logger.getLogger(FindRouteController.class);
     private final TransportService transportService;
     private final StayingService stayingService;
 /*    private final RoadLogistic roadLogistic = new RoadLogistic();*/

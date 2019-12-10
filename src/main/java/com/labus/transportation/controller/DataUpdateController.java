@@ -10,8 +10,7 @@ import com.labus.transportation.parser.TransportPool;
 import com.labus.transportation.parser.entity.TimeOfDay;
 import com.labus.transportation.service.TransportService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +23,9 @@ import java.util.*;
 @RestController
 @RequestMapping("update")
 public class DataUpdateController {
+
+    Logger log = Logger.getLogger(DataUpdateController.class);
     private final TransportService transportService;
-    private final Logger log = LoggerFactory.getLogger(DataUpdateController.class);
     private Map<String,Staying> stayings = new HashMap<String,Staying>();
     @GetMapping
     public void update(){
