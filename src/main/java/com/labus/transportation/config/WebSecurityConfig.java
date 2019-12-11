@@ -2,6 +2,7 @@ package com.labus.transportation.config;
 
 import com.labus.transportation.controller.TestController;
 import com.labus.transportation.repositories.UserRepository;
+import com.labus.transportation.service.AuthProvider;
 import com.labus.transportation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.ui.Model;
 
@@ -50,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private OAuth2ClientContext oAuth2ClientContext;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthProvider authProvider;
     private Model model;
 
     private AuthenticationSuccessHandler authenticationSuccessHandler = new AuthenticationSuccessHandler() {
@@ -66,12 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests().antMatchers("/","/find/**").access("hasAnyAuthority('USER')");
-        http.authorizeRequests().antMatchers("/info").access("hasAnyAuthority('USER')");
+        http.authorizeRequests().antMatchers("/info").authenticated();
         http
                 .authorizeRequests()
-                .antMatchers("/**","/assets/**", "/registration", "/login**", "/test", "/login?error").permitAll()
+                .antMatchers("/assets/**", "/registration", "/login**", "/test", "/login?error","/actuator**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
@@ -87,13 +90,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/logoutSuccessful")
                 .permitAll();
+        http.addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     // Указываем Spring контейнеру, что надо инициализировать ShaPasswordEncoder
     // Это можно вынести в WebAppConfig, но для понимаемости оставил тут
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+        auth.authenticationProvider(authProvider);
     }
 
     @Bean
@@ -119,7 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(googleResource().getUserInfoUri(), google().getClientId());
         tokenServices.setRestTemplate(googleTemplate);
         googleFilter.setTokenServices(tokenServices);
-        tokenServices.setUserRepository(userRepository);
+        tokenServices.setUserService(userService);
         tokenServices.setPasswordEncoder(passwordEncoder);
         return googleFilter;
     }

@@ -17,19 +17,7 @@ public class TestController {
 @Autowired
     TransportService transportService;
     @RequestMapping("/test")
-    public String test(Principal principal){
-        if(principal==null)return RoleEnum.GUEST.getRole();
-/*        log.info("test info log4j message");
-        String message = "message";
-        log.warn("test warn log4j message");
-        log.fatal("fatal crash test message");*/
-        StringBuilder authorities = new StringBuilder();
-        for(GrantedAuthority role:((UserDetails)principal).getAuthorities()) {
-            authorities.append(((RoleEnum) role).getRole()).append(" ");
-            System.out.println(((RoleEnum) role).getRole());
-            System.out.println(((RoleEnum) role).name());
-            System.out.println(role.getAuthority());
-        }
-        return new String(authorities) ;
+    public Principal test(Principal principal) {
+        return principal;
     }
 }

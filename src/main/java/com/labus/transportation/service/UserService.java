@@ -30,14 +30,6 @@ public class UserService implements UserDetailsService {
         else return false;
     }
 
-    public User findByUsername(String username){
-        return userRepository.findByUsername(username);
-    }
-
-    public User findByUsernameAndPassword(String username, String password){
-        return userRepository.findByUsernameAndPassword(username,password);
-    }
-
     public Integer save(User user){
         return userRepository.save(user).getId();
     }
@@ -52,6 +44,9 @@ public class UserService implements UserDetailsService {
             if(user != null){
                 return user;
             }
-            throw new UsernameNotFoundException(username);
+            return null;
+    }
+    public User findByGoogleUsername(String userName){
+        return userRepository.findByGoogleUsername(userName);
     }
 }
