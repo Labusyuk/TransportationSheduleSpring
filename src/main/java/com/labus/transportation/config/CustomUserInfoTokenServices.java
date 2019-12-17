@@ -1,10 +1,21 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
 package com.labus.transportation.config;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.labus.transportation.model.User;
 import com.labus.transportation.model.enums.RoleEnum;
 import com.labus.transportation.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedPrincipalExtractor;
@@ -24,66 +35,33 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.util.Assert;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-public class CustomUserInfoTokenServices implements ResourceServerTokenServices
-{
+public class CustomUserInfoTokenServices implements ResourceServerTokenServices {
     protected final Log logger = LogFactory.getLog(this.getClass());
-    private String userInfoEndpointUrl;
-    private String clientId;
+    private final String userInfoEndpointUrl;
+    private final String clientId;
     private OAuth2RestOperations restTemplate;
     private String tokenType = "Bearer";
     private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
     private PrincipalExtractor principalExtractor = new FixedPrincipalExtractor();
-
+    @Autowired
     private UserService userService;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public CustomUserInfoTokenServices(){}
-
-    public CustomUserInfoTokenServices(String userInfoEndpointUrl, String clientId)
-    {
+    public CustomUserInfoTokenServices(String userInfoEndpointUrl, String clientId) {
         this.userInfoEndpointUrl = userInfoEndpointUrl;
         this.clientId = clientId;
     }
 
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder)
-    {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public String getUserInfoEndpointUrl()
-    {
-        return userInfoEndpointUrl;
-    }
-
-    public void setUserInfoEndpointUrl(String userInfoEndpointUrl)
-    {
-        this.userInfoEndpointUrl = userInfoEndpointUrl;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setTokenType(String tokenType)
-    {
+    public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
 
-    public void setRestTemplate(OAuth2RestOperations restTemplate)
-    {
+    public void setRestTemplate(OAuth2RestOperations restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public void setAuthoritiesExtractor(AuthoritiesExtractor authoritiesExtractor)
-    {
+    public void setAuthoritiesExtractor(AuthoritiesExtractor authoritiesExtractor) {
         Assert.notNull(authoritiesExtractor, "AuthoritiesExtractor must not be null");
         this.authoritiesExtractor = authoritiesExtractor;
     }
@@ -109,19 +87,19 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices
             if(user == null)
             {
                 user = new User();
-                user.setEnabled(true);
-                user.setAccountNonExpired(true);
-                user.setAccountNonLocked(true);
                 user.setCredentialsNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setAccountNonExpired(true);
+                user.setEnabled(true);
                 user.setAuthorities(Collections.singleton(RoleEnum.ADMIN));
             }
-            user.setEmail(googleName);
+
+            user.setEmail(googleUsername);
             user.setUsername(googleUsername);
             user.setGoogleName(googleName);
             user.setGoogleUsername(googleUsername);
-
-            user.setPassword(passwordEncoder.encode("oauth2user")); //MUST BE FIXED
-
+            user.setPassword(passwordEncoder.encode("oauth2user"));
+            map.put("authorities", user.getAuthorities());
             userService.save(user);
         }
 
@@ -134,39 +112,28 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices
     }
 
     private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
-
-        Object principal = getPrincipal(map);
-
-        List<GrantedAuthority> authorities = this.authoritiesExtractor
-                .extractAuthorities(map);
-        OAuth2Request request = new OAuth2Request(null, this.clientId, null, true, null,
-                null, null, null, null);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                principal, "N/A", authorities);
+        Object principal = this.getPrincipal(map);
+        List<GrantedAuthority> authorities = this.authoritiesExtractor.extractAuthorities(map);
+        OAuth2Request request = new OAuth2Request((Map)null, this.clientId, (Collection)null, true, (Set)null, (Set)null, (String)null, (Set)null, (Map)null);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, "N/A", authorities);
         token.setDetails(map);
         return new OAuth2Authentication(request, token);
     }
 
-    /**
-     * Return the principal that should be used for the token. The default implementation
-     * delegates to the {@link PrincipalExtractor}.
-     * @param map the source map
-     * @return the principal or {@literal "unknown"}
-     */
     protected Object getPrincipal(Map<String, Object> map) {
         Object principal = this.principalExtractor.extractPrincipal(map);
-        this.logger.info("principal from getPrincipal method: "+ principal);
-        return (principal == null ? "unknown" : principal);
+        return principal == null ? "unknown" : principal;
     }
 
-    @Override
     public OAuth2AccessToken readAccessToken(String accessToken) {
         throw new UnsupportedOperationException("Not supported: read access token");
     }
 
-    @SuppressWarnings({ "unchecked" })
     private Map<String, Object> getMap(String path, String accessToken) {
-        this.logger.info("Getting user info from: " + path);
+        if (this.logger.isDebugEnabled()) {
+            this.logger.debug("Getting user info from: " + path);
+        }
+
         try {
             OAuth2RestOperations restTemplate = this.restTemplate;
             if (restTemplate == null) {
@@ -174,21 +141,34 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices
                 resource.setClientId(this.clientId);
                 restTemplate = new OAuth2RestTemplate(resource);
             }
-            OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext()
-                    .getAccessToken();
+
+            OAuth2AccessToken existingToken = ((OAuth2RestOperations)restTemplate).getOAuth2ClientContext().getAccessToken();
             if (existingToken == null || !accessToken.equals(existingToken.getValue())) {
-                DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(
-                        accessToken);
+                DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(accessToken);
                 token.setTokenType(this.tokenType);
-                restTemplate.getOAuth2ClientContext().setAccessToken(token);
+                ((OAuth2RestOperations)restTemplate).getOAuth2ClientContext().setAccessToken(token);
             }
-            return restTemplate.getForEntity(path, Map.class).getBody();
+
+            return (Map)((OAuth2RestOperations)restTemplate).getForEntity(path, Map.class, new Object[0]).getBody();
+        } catch (Exception var6) {
+            this.logger.warn("Could not fetch user details: " + var6.getClass() + ", " + var6.getMessage());
+            return Collections.singletonMap("error", "Could not fetch user details");
         }
-        catch (Exception ex) {
-            this.logger.info("Could not fetch user details: " + ex.getClass() + ", "
-                    + ex.getMessage());
-            return Collections.<String, Object>singletonMap("error",
-                    "Could not fetch user details");
-        }
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

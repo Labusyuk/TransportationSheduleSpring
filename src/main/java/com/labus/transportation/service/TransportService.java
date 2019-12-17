@@ -19,7 +19,6 @@ public class TransportService {
     }
 
     public List<Transport> getTransports(){
-        System.out.printf("TransportService.getTransports");
         return transportRespository.findAll();
     }
 

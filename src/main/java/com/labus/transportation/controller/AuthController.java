@@ -30,6 +30,7 @@ public class AuthController {
        model.put("userNotExist", "Користувач з таким логіном і паролем не знайдений");
         return "/login";
     }
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(User user, Map<String, Object> model){
         boolean correctData = true;
@@ -47,14 +48,8 @@ public class AuthController {
         }
         System.out.println(correctData+" "+user.getUsername()+" "+passwordEncoder.encode((user.getPassword())));
         user.setAuthorities(Set.of(RoleEnum.USER));
-        if(correctData) {
-                user.setPassword(passwordEncoder.encode((user.getPassword())));
-                user.setEnabled(true);
-                user.setCredentialsNonExpired(true);
-                user.setAccountNonLocked(true);
-                userService.save(user);
+        if(userService.add(user))
             return "redirect:/";
-        }
         return "login";
     }
 

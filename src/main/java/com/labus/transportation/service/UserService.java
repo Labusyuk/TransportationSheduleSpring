@@ -25,17 +25,31 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean checkUsefulEmail(String email){
-        if(userRepository.findByEmail(email)!=null)
-            return true;
-        else return false;
+        return userRepository.findByEmail(email)!=null;
     }
 
     public Integer save(User user){
         return userRepository.save(user).getId();
     }
 
+    public boolean add(User user){
+        if(!checkUsefulUsername(user.getUsername())) {
+            user.setEnabled(true);
+            user.setCredentialsNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setAccountNonExpired(true);
+            save(user);
+            return true;
+        }else
+            return false;
+    }
+
     public Long getUserCount(){
         return userRepository.count();
+    }
+
+    public User findByEmail(String userName){
+        return userRepository.findByEmail(userName);
     }
 
     @Override
