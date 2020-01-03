@@ -76,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.authorizeRequests().antMatchers("/actuator/*").permitAll();
         http.authorizeRequests().antMatchers("/","/find/**").authenticated();
         http.authorizeRequests().antMatchers("/info","/update").access("hasAnyAuthority('USER','ADMIN')");
         http
