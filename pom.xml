@@ -138,8 +138,6 @@
                         <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
                         <arg>-Amapstruct.defaultComponentModel=spring</arg>
                     </compilerArgs>
-                    <source>9</source>
-                    <target>9</target>
                 </configuration>
             </plugin>
 
