@@ -46,8 +46,8 @@ class TransportServiceTest {
     void getTransportCount() {
         Transport transport1 = new Transport(), transport2 = new Transport();
         List<Transport> transportList = new ArrayList<>(Arrays.asList(transport1, transport2));
-        Mockito.doReturn(Long.valueOf(2)).when(transportRespository).findByNameType("nameType");
-        Assert.assertEquals(Long.valueOf(2),transportService.getTransportCount("nameType"));
+        Mockito.doReturn(transportList).when(transportRespository).findByNameType("nameType");
+        Assert.assertEquals(Integer.valueOf(2),transportService.getTransportCount("nameType"));
         verify(transportRespository).findByNameType("nameType");
     }
 }
