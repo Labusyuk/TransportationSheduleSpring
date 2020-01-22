@@ -48,6 +48,7 @@ public class AuthController {
         }
         System.out.println(correctData+" "+user.getUsername()+" "+passwordEncoder.encode((user.getPassword())));
         user.setAuthorities(Set.of(RoleEnum.USER));
+        user.setPassword(passwordEncoder.encode((user.getPassword())));
         if(userService.add(user))
             return "redirect:/";
         return "login";
