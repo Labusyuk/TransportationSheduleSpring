@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,8 +47,7 @@ public class AuthController {
             model.put("emailAlreadyInUse", "E-mail користувача вже використовується");
             correctData = false;
         }
-        System.out.println(correctData+" "+user.getUsername()+" "+passwordEncoder.encode((user.getPassword())));
-        user.setAuthorities(Set.of(RoleEnum.USER));
+        user.setAuthorities(Collections.singleton(RoleEnum.USER));
         user.setPassword(passwordEncoder.encode((user.getPassword())));
         if(userService.add(user))
             return "redirect:/";
