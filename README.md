@@ -15,13 +15,13 @@ This project was released with mysql, mariaDB, mongoDB.
 The program parses and stores transport data, routes, stops, schedules in db from site www.depo.vn.ua. Parsing takes a long time (10min). To start parse data go to *host*/update in browser.
 There's really a lot of information out there, at each stop, on your schedule: weekdays and weekends. Routes in one transport in different directions are regarded as different ((Залізничний вокзал - Вишенька   /  Вишенька - Залізничний вокзал ).
 
-###### Available pages:
- / - main page. If you didn't authorized you would be redirected Spring auth page.
- /update - update database. Start process parsing from www.depo.vn.ua.
- /info - information of capacity database.
- /find - controller of route building.
- /logout - logout from Spring Security.
- /test - testing development
+##### Available pages:
+ * / - main page. If you didn't authorized you would be redirected Spring auth page.
+ * /update - update database. Start process parsing from www.depo.vn.ua.
+ * /info - information of capacity database.
+ * /find - controller of route building.
+ * /logout - logout from Spring Security.
+ * /test - testing development
 ##### The look of the web page of the service
 
 ![Look of the web page](https://raw.githubusercontent.com/Labusyuk/TransportationSheduleSpring/master/other/mainpage.png)
